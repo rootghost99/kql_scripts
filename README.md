@@ -1,2 +1,2 @@
 # kql_scripts
-A Collection of KQL Scripts
+A Collection of KQL Scripts. Test!
