@@ -1,0 +1,23 @@
+// Overview:
+// This query retrieves sign-in activity for a specific user within the last 14 days
+// originating from a specific IP address (41.210.145.222).
+// It displays both successful and failed sign-in attempts,
+// along with details such as time, location, authentication type, and application used.
+
+
+SigninLogs
+| where TimeGenerated >= ago(14d)
+| where UserDisplayName == "<REDACTED USER>" or UserPrincipalName contains "<REDACTED USER>"
+| where IPAddress == "41.210.145.222"
+| project TimeGenerated,
+          UserDisplayName,
+          UserPrincipalName,
+          IPAddress,
+          Location = tostring(LocationDetails.city),
+          ResultType,
+          ResultDescription,
+          Status = tostring(Status.errorCode),
+          AuthenticationRequirement,
+          ConditionalAccessStatus,
+          AppDisplayName
+| order by TimeGenerated desc
